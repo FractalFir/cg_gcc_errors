@@ -4,25 +4,17 @@
     extern crate core;
     use core::intrinsics::mir::*;
 
-    use std::collections::hash_map::DefaultHasher;
-    use std::hash::{Hash, Hasher};
-    use std::sync::LazyLock;
-
-    static mut H: LazyLock<DefaultHasher> = LazyLock::new(|| DefaultHasher::new());
+    use std::fmt::Debug;
 
     #[inline(never)]
     fn dump_var(
-        val0: impl Hash,
-        val1: impl Hash,
-        val2: impl Hash,
-        val3: impl Hash,
+        f: usize,
+        var0: usize, val0: impl Debug,
+        var1: usize, val1: impl Debug,
+        var2: usize, val2: impl Debug,
+        var3: usize, val3: impl Debug,
     ) {
-        unsafe {
-            val0.hash(LazyLock::force_mut(&mut H));
-            val1.hash(LazyLock::force_mut(&mut H));
-            val2.hash(LazyLock::force_mut(&mut H));
-            val3.hash(LazyLock::force_mut(&mut H));
-        }
+        println!("fn{f}:_{var0} = {val0:?}\n_{var1} = {val1:?}\n_{var2} = {val2:?}\n_{var3} = {val3:?}");
     }
     #[custom_mir(dialect = "runtime", phase = "initial")]
 pub fn fn0(mut _1: u128,mut _2: u16,mut _3: u8,mut _4: i8,mut _5: i16,mut _6: i32,mut _7: i64,mut _8: u32) -> isize {
@@ -550,13 +542,13 @@ RET = !_33;
 Goto(bb21)
 }
 bb21 = {
-Call(_44 = dump_var(Move(_30), Move(_24), Move(_3), Move(_17)), ReturnTo(bb22), UnwindUnreachable())
+Call(_44 = dump_var(0_usize, 30_usize, Move(_30), 24_usize, Move(_24), 3_usize, Move(_3), 17_usize, Move(_17)), ReturnTo(bb22), UnwindUnreachable())
 }
 bb22 = {
-Call(_44 = dump_var(Move(_6), Move(_25), Move(_5), Move(_2)), ReturnTo(bb23), UnwindUnreachable())
+Call(_44 = dump_var(0_usize, 6_usize, Move(_6), 25_usize, Move(_25), 5_usize, Move(_5), 2_usize, Move(_2)), ReturnTo(bb23), UnwindUnreachable())
 }
 bb23 = {
-Call(_44 = dump_var(Move(_33), Move(_13), _45, _45), ReturnTo(bb24), UnwindUnreachable())
+Call(_44 = dump_var(0_usize, 33_usize, Move(_33), 13_usize, Move(_13), 45_usize, _45, 45_usize, _45), ReturnTo(bb24), UnwindUnreachable())
 }
 bb24 = {
 Return()
@@ -1213,19 +1205,19 @@ _42 = (*_45) as i32;
 Goto(bb46)
 }
 bb46 = {
-Call(_87 = dump_var(Move(_80), Move(_62), Move(_31), Move(_3)), ReturnTo(bb47), UnwindUnreachable())
+Call(_87 = dump_var(1_usize, 80_usize, Move(_80), 62_usize, Move(_62), 31_usize, Move(_31), 3_usize, Move(_3)), ReturnTo(bb47), UnwindUnreachable())
 }
 bb47 = {
-Call(_87 = dump_var(Move(_27), Move(_41), Move(_7), Move(_64)), ReturnTo(bb48), UnwindUnreachable())
+Call(_87 = dump_var(1_usize, 27_usize, Move(_27), 41_usize, Move(_41), 7_usize, Move(_7), 64_usize, Move(_64)), ReturnTo(bb48), UnwindUnreachable())
 }
 bb48 = {
-Call(_87 = dump_var(Move(_22), Move(_32), Move(_5), Move(_77)), ReturnTo(bb49), UnwindUnreachable())
+Call(_87 = dump_var(1_usize, 22_usize, Move(_22), 32_usize, Move(_32), 5_usize, Move(_5), 77_usize, Move(_77)), ReturnTo(bb49), UnwindUnreachable())
 }
 bb49 = {
-Call(_87 = dump_var(Move(_53), Move(_2), Move(_72), Move(_18)), ReturnTo(bb50), UnwindUnreachable())
+Call(_87 = dump_var(1_usize, 53_usize, Move(_53), 2_usize, Move(_2), 72_usize, Move(_72), 18_usize, Move(_18)), ReturnTo(bb50), UnwindUnreachable())
 }
 bb50 = {
-Call(_87 = dump_var(Move(_76), Move(_42), _88, _88), ReturnTo(bb51), UnwindUnreachable())
+Call(_87 = dump_var(1_usize, 76_usize, Move(_76), 42_usize, Move(_42), 88_usize, _88, 88_usize, _88), ReturnTo(bb51), UnwindUnreachable())
 }
 bb51 = {
 Return()
@@ -1560,13 +1552,13 @@ _43 = _19 as u64;
 Goto(bb17)
 }
 bb17 = {
-Call(_45 = dump_var(Move(_12), Move(_27), Move(_43), Move(_19)), ReturnTo(bb18), UnwindUnreachable())
+Call(_45 = dump_var(2_usize, 12_usize, Move(_12), 27_usize, Move(_27), 43_usize, Move(_43), 19_usize, Move(_19)), ReturnTo(bb18), UnwindUnreachable())
 }
 bb18 = {
-Call(_45 = dump_var(Move(_1), Move(_5), Move(_9), Move(_26)), ReturnTo(bb19), UnwindUnreachable())
+Call(_45 = dump_var(2_usize, 1_usize, Move(_1), 5_usize, Move(_5), 9_usize, Move(_9), 26_usize, Move(_26)), ReturnTo(bb19), UnwindUnreachable())
 }
 bb19 = {
-Call(_45 = dump_var(Move(_8), Move(_25), Move(_3), Move(_21)), ReturnTo(bb20), UnwindUnreachable())
+Call(_45 = dump_var(2_usize, 8_usize, Move(_8), 25_usize, Move(_25), 3_usize, Move(_3), 21_usize, Move(_21)), ReturnTo(bb20), UnwindUnreachable())
 }
 bb20 = {
 Return()
@@ -1688,7 +1680,7 @@ _7 = [74_i8,28_i8,(-64_i8),57_i8,74_i8,76_i8];
 Goto(bb6)
 }
 bb6 = {
-Call(_15 = dump_var(Move(_4), Move(_7), Move(_1), Move(_12)), ReturnTo(bb7), UnwindUnreachable())
+Call(_15 = dump_var(3_usize, 4_usize, Move(_4), 7_usize, Move(_7), 1_usize, Move(_1), 12_usize, Move(_12)), ReturnTo(bb7), UnwindUnreachable())
 }
 bb7 = {
 Return()
@@ -2582,16 +2574,16 @@ _66 = _3 * _2;
 Goto(bb51)
 }
 bb51 = {
-Call(_67 = dump_var(Move(_10), Move(_57), Move(_55), Move(_52)), ReturnTo(bb52), UnwindUnreachable())
+Call(_67 = dump_var(4_usize, 10_usize, Move(_10), 57_usize, Move(_57), 55_usize, Move(_55), 52_usize, Move(_52)), ReturnTo(bb52), UnwindUnreachable())
 }
 bb52 = {
-Call(_67 = dump_var(Move(_56), Move(_1), Move(_6), Move(_20)), ReturnTo(bb53), UnwindUnreachable())
+Call(_67 = dump_var(4_usize, 56_usize, Move(_56), 1_usize, Move(_1), 6_usize, Move(_6), 20_usize, Move(_20)), ReturnTo(bb53), UnwindUnreachable())
 }
 bb53 = {
-Call(_67 = dump_var(Move(_29), Move(_66), Move(_36), Move(_31)), ReturnTo(bb54), UnwindUnreachable())
+Call(_67 = dump_var(4_usize, 29_usize, Move(_29), 66_usize, Move(_66), 36_usize, Move(_36), 31_usize, Move(_31)), ReturnTo(bb54), UnwindUnreachable())
 }
 bb54 = {
-Call(_67 = dump_var(Move(_39), _68, _68, _68), ReturnTo(bb55), UnwindUnreachable())
+Call(_67 = dump_var(4_usize, 39_usize, Move(_39), 68_usize, _68, 68_usize, _68, 68_usize, _68), ReturnTo(bb55), UnwindUnreachable())
 }
 bb55 = {
 Return()
@@ -3553,19 +3545,19 @@ place!(Field::<u32>(Variant((*_47), 2), 1)) = _66 as u32;
 Goto(bb52)
 }
 bb52 = {
-Call(_90 = dump_var(Move(_45), Move(_17), Move(_4), Move(_32)), ReturnTo(bb53), UnwindUnreachable())
+Call(_90 = dump_var(5_usize, 45_usize, Move(_45), 17_usize, Move(_17), 4_usize, Move(_4), 32_usize, Move(_32)), ReturnTo(bb53), UnwindUnreachable())
 }
 bb53 = {
-Call(_90 = dump_var(Move(_29), Move(_33), Move(_18), Move(_24)), ReturnTo(bb54), UnwindUnreachable())
+Call(_90 = dump_var(5_usize, 29_usize, Move(_29), 33_usize, Move(_33), 18_usize, Move(_18), 24_usize, Move(_24)), ReturnTo(bb54), UnwindUnreachable())
 }
 bb54 = {
-Call(_90 = dump_var(Move(_6), Move(_3), Move(_15), Move(_62)), ReturnTo(bb55), UnwindUnreachable())
+Call(_90 = dump_var(5_usize, 6_usize, Move(_6), 3_usize, Move(_3), 15_usize, Move(_15), 62_usize, Move(_62)), ReturnTo(bb55), UnwindUnreachable())
 }
 bb55 = {
-Call(_90 = dump_var(Move(_21), Move(_64), Move(_16), Move(_42)), ReturnTo(bb56), UnwindUnreachable())
+Call(_90 = dump_var(5_usize, 21_usize, Move(_21), 64_usize, Move(_64), 16_usize, Move(_16), 42_usize, Move(_42)), ReturnTo(bb56), UnwindUnreachable())
 }
 bb56 = {
-Call(_90 = dump_var(Move(_26), Move(_51), _91, _91), ReturnTo(bb57), UnwindUnreachable())
+Call(_90 = dump_var(5_usize, 26_usize, Move(_26), 51_usize, Move(_51), 91_usize, _91, 91_usize, _91), ReturnTo(bb57), UnwindUnreachable())
 }
 bb57 = {
 Return()
@@ -4592,16 +4584,16 @@ _14 = (Move(_69.0), _53);
 Goto(bb53)
 }
 bb53 = {
-Call(_73 = dump_var(Move(_15), Move(_49), Move(_11), Move(_4)), ReturnTo(bb54), UnwindUnreachable())
+Call(_73 = dump_var(6_usize, 15_usize, Move(_15), 49_usize, Move(_49), 11_usize, Move(_11), 4_usize, Move(_4)), ReturnTo(bb54), UnwindUnreachable())
 }
 bb54 = {
-Call(_73 = dump_var(Move(_21), Move(_42), Move(_17), Move(_68)), ReturnTo(bb55), UnwindUnreachable())
+Call(_73 = dump_var(6_usize, 21_usize, Move(_21), 42_usize, Move(_42), 17_usize, Move(_17), 68_usize, Move(_68)), ReturnTo(bb55), UnwindUnreachable())
 }
 bb55 = {
-Call(_73 = dump_var(Move(_30), Move(_33), Move(_1), Move(_12)), ReturnTo(bb56), UnwindUnreachable())
+Call(_73 = dump_var(6_usize, 30_usize, Move(_30), 33_usize, Move(_33), 1_usize, Move(_1), 12_usize, Move(_12)), ReturnTo(bb56), UnwindUnreachable())
 }
 bb56 = {
-Call(_73 = dump_var(Move(_23), Move(_40), Move(_65), Move(_29)), ReturnTo(bb57), UnwindUnreachable())
+Call(_73 = dump_var(6_usize, 23_usize, Move(_23), 40_usize, Move(_40), 65_usize, Move(_65), 29_usize, Move(_29)), ReturnTo(bb57), UnwindUnreachable())
 }
 bb57 = {
 Return()
@@ -4729,10 +4721,10 @@ _6 = _1;
 Goto(bb6)
 }
 bb6 = {
-Call(_15 = dump_var(Move(_2), Move(_6), Move(_1), Move(_7)), ReturnTo(bb7), UnwindUnreachable())
+Call(_15 = dump_var(7_usize, 2_usize, Move(_2), 6_usize, Move(_6), 1_usize, Move(_1), 7_usize, Move(_7)), ReturnTo(bb7), UnwindUnreachable())
 }
 bb7 = {
-Call(_15 = dump_var(Move(_11), _16, _16, _16), ReturnTo(bb8), UnwindUnreachable())
+Call(_15 = dump_var(7_usize, 11_usize, Move(_11), 16_usize, _16, 16_usize, _16, 16_usize, _16), ReturnTo(bb8), UnwindUnreachable())
 }
 bb8 = {
 Return()
@@ -5681,16 +5673,16 @@ RET = [_47,_47,_47,_47,_47,_47];
 Goto(bb50)
 }
 bb50 = {
-Call(_80 = dump_var(Move(_2), Move(_51), Move(_15), Move(_34)), ReturnTo(bb51), UnwindUnreachable())
+Call(_80 = dump_var(8_usize, 2_usize, Move(_2), 51_usize, Move(_51), 15_usize, Move(_15), 34_usize, Move(_34)), ReturnTo(bb51), UnwindUnreachable())
 }
 bb51 = {
-Call(_80 = dump_var(Move(_20), Move(_63), Move(_53), Move(_47)), ReturnTo(bb52), UnwindUnreachable())
+Call(_80 = dump_var(8_usize, 20_usize, Move(_20), 63_usize, Move(_63), 53_usize, Move(_53), 47_usize, Move(_47)), ReturnTo(bb52), UnwindUnreachable())
 }
 bb52 = {
-Call(_80 = dump_var(Move(_32), Move(_13), Move(_37), Move(_69)), ReturnTo(bb53), UnwindUnreachable())
+Call(_80 = dump_var(8_usize, 32_usize, Move(_32), 13_usize, Move(_13), 37_usize, Move(_37), 69_usize, Move(_69)), ReturnTo(bb53), UnwindUnreachable())
 }
 bb53 = {
-Call(_80 = dump_var(Move(_24), Move(_52), _81, _81), ReturnTo(bb54), UnwindUnreachable())
+Call(_80 = dump_var(8_usize, 24_usize, Move(_24), 52_usize, Move(_52), 81_usize, _81, 81_usize, _81), ReturnTo(bb54), UnwindUnreachable())
 }
 bb54 = {
 Return()
@@ -5829,7 +5821,7 @@ _7 = [(-74_i8)];
 Goto(bb6)
 }
 bb6 = {
-Call(_13 = dump_var(Move(_7), Move(_9), _14, _14), ReturnTo(bb7), UnwindUnreachable())
+Call(_13 = dump_var(9_usize, 7_usize, Move(_7), 9_usize, Move(_9), 14_usize, _14, 14_usize, _14), ReturnTo(bb7), UnwindUnreachable())
 }
 bb7 = {
 Return()
@@ -6680,22 +6672,22 @@ _13 = _20;
 Goto(bb50)
 }
 bb50 = {
-Call(_97 = dump_var(Move(_77), Move(_94), Move(_22), Move(_64)), ReturnTo(bb51), UnwindUnreachable())
+Call(_97 = dump_var(10_usize, 77_usize, Move(_77), 94_usize, Move(_94), 22_usize, Move(_22), 64_usize, Move(_64)), ReturnTo(bb51), UnwindUnreachable())
 }
 bb51 = {
-Call(_97 = dump_var(Move(_13), Move(_25), Move(_62), Move(_72)), ReturnTo(bb52), UnwindUnreachable())
+Call(_97 = dump_var(10_usize, 13_usize, Move(_13), 25_usize, Move(_25), 62_usize, Move(_62), 72_usize, Move(_72)), ReturnTo(bb52), UnwindUnreachable())
 }
 bb52 = {
-Call(_97 = dump_var(Move(_61), Move(_20), Move(_89), Move(_48)), ReturnTo(bb53), UnwindUnreachable())
+Call(_97 = dump_var(10_usize, 61_usize, Move(_61), 20_usize, Move(_20), 89_usize, Move(_89), 48_usize, Move(_48)), ReturnTo(bb53), UnwindUnreachable())
 }
 bb53 = {
-Call(_97 = dump_var(Move(_35), Move(_6), Move(_7), Move(_83)), ReturnTo(bb54), UnwindUnreachable())
+Call(_97 = dump_var(10_usize, 35_usize, Move(_35), 6_usize, Move(_6), 7_usize, Move(_7), 83_usize, Move(_83)), ReturnTo(bb54), UnwindUnreachable())
 }
 bb54 = {
-Call(_97 = dump_var(Move(_2), Move(_41), Move(_23), Move(_5)), ReturnTo(bb55), UnwindUnreachable())
+Call(_97 = dump_var(10_usize, 2_usize, Move(_2), 41_usize, Move(_41), 23_usize, Move(_23), 5_usize, Move(_5)), ReturnTo(bb55), UnwindUnreachable())
 }
 bb55 = {
-Call(_97 = dump_var(Move(_4), Move(_12), Move(_78), _98), ReturnTo(bb56), UnwindUnreachable())
+Call(_97 = dump_var(10_usize, 4_usize, Move(_4), 12_usize, Move(_12), 78_usize, Move(_78), 98_usize, _98), ReturnTo(bb56), UnwindUnreachable())
 }
 bb56 = {
 Return()
@@ -7727,19 +7719,19 @@ _11.1 = &mut _88;
 Goto(bb50)
 }
 bb50 = {
-Call(_100 = dump_var(Move(_36), Move(_12), Move(_68), Move(_60)), ReturnTo(bb51), UnwindUnreachable())
+Call(_100 = dump_var(11_usize, 36_usize, Move(_36), 12_usize, Move(_12), 68_usize, Move(_68), 60_usize, Move(_60)), ReturnTo(bb51), UnwindUnreachable())
 }
 bb51 = {
-Call(_100 = dump_var(Move(_53), Move(_20), Move(_43), Move(_49)), ReturnTo(bb52), UnwindUnreachable())
+Call(_100 = dump_var(11_usize, 53_usize, Move(_53), 20_usize, Move(_20), 43_usize, Move(_43), 49_usize, Move(_49)), ReturnTo(bb52), UnwindUnreachable())
 }
 bb52 = {
-Call(_100 = dump_var(Move(_51), Move(_19), Move(_2), Move(_33)), ReturnTo(bb53), UnwindUnreachable())
+Call(_100 = dump_var(11_usize, 51_usize, Move(_51), 19_usize, Move(_19), 2_usize, Move(_2), 33_usize, Move(_33)), ReturnTo(bb53), UnwindUnreachable())
 }
 bb53 = {
-Call(_100 = dump_var(Move(_35), Move(_24), Move(_1), Move(_3)), ReturnTo(bb54), UnwindUnreachable())
+Call(_100 = dump_var(11_usize, 35_usize, Move(_35), 24_usize, Move(_24), 1_usize, Move(_1), 3_usize, Move(_3)), ReturnTo(bb54), UnwindUnreachable())
 }
 bb54 = {
-Call(_100 = dump_var(Move(_76), _101, _101, _101), ReturnTo(bb55), UnwindUnreachable())
+Call(_100 = dump_var(11_usize, 76_usize, Move(_76), 101_usize, _101, 101_usize, _101, 101_usize, _101), ReturnTo(bb55), UnwindUnreachable())
 }
 bb55 = {
 Return()
@@ -8924,16 +8916,16 @@ _21 = Move(_7);
 Goto(bb51)
 }
 bb51 = {
-Call(_81 = dump_var(Move(_42), Move(_16), Move(_14), Move(_68)), ReturnTo(bb52), UnwindUnreachable())
+Call(_81 = dump_var(12_usize, 42_usize, Move(_42), 16_usize, Move(_16), 14_usize, Move(_14), 68_usize, Move(_68)), ReturnTo(bb52), UnwindUnreachable())
 }
 bb52 = {
-Call(_81 = dump_var(Move(_17), Move(_32), Move(_66), Move(_35)), ReturnTo(bb53), UnwindUnreachable())
+Call(_81 = dump_var(12_usize, 17_usize, Move(_17), 32_usize, Move(_32), 66_usize, Move(_66), 35_usize, Move(_35)), ReturnTo(bb53), UnwindUnreachable())
 }
 bb53 = {
-Call(_81 = dump_var(Move(_47), Move(_44), Move(_57), Move(_74)), ReturnTo(bb54), UnwindUnreachable())
+Call(_81 = dump_var(12_usize, 47_usize, Move(_47), 44_usize, Move(_44), 57_usize, Move(_57), 74_usize, Move(_74)), ReturnTo(bb54), UnwindUnreachable())
 }
 bb54 = {
-Call(_81 = dump_var(Move(_43), Move(_4), Move(_45), _82), ReturnTo(bb55), UnwindUnreachable())
+Call(_81 = dump_var(12_usize, 43_usize, Move(_43), 4_usize, Move(_4), 45_usize, Move(_45), 82_usize, _82), ReturnTo(bb55), UnwindUnreachable())
 }
 bb55 = {
 Return()
@@ -9724,19 +9716,19 @@ _56 = _16 * _53.1;
 Goto(bb39)
 }
 bb39 = {
-Call(_86 = dump_var(Move(_28), Move(_67), Move(_20), Move(_54)), ReturnTo(bb40), UnwindUnreachable())
+Call(_86 = dump_var(13_usize, 28_usize, Move(_28), 67_usize, Move(_67), 20_usize, Move(_20), 54_usize, Move(_54)), ReturnTo(bb40), UnwindUnreachable())
 }
 bb40 = {
-Call(_86 = dump_var(Move(_2), Move(_36), Move(_39), Move(_64)), ReturnTo(bb41), UnwindUnreachable())
+Call(_86 = dump_var(13_usize, 2_usize, Move(_2), 36_usize, Move(_36), 39_usize, Move(_39), 64_usize, Move(_64)), ReturnTo(bb41), UnwindUnreachable())
 }
 bb41 = {
-Call(_86 = dump_var(Move(_23), Move(_30), Move(_4), Move(_68)), ReturnTo(bb42), UnwindUnreachable())
+Call(_86 = dump_var(13_usize, 23_usize, Move(_23), 30_usize, Move(_30), 4_usize, Move(_4), 68_usize, Move(_68)), ReturnTo(bb42), UnwindUnreachable())
 }
 bb42 = {
-Call(_86 = dump_var(Move(_24), Move(_62), Move(_38), Move(_58)), ReturnTo(bb43), UnwindUnreachable())
+Call(_86 = dump_var(13_usize, 24_usize, Move(_24), 62_usize, Move(_62), 38_usize, Move(_38), 58_usize, Move(_58)), ReturnTo(bb43), UnwindUnreachable())
 }
 bb43 = {
-Call(_86 = dump_var(Move(_9), Move(_34), Move(_60), Move(_31)), ReturnTo(bb44), UnwindUnreachable())
+Call(_86 = dump_var(13_usize, 9_usize, Move(_9), 34_usize, Move(_34), 60_usize, Move(_60), 31_usize, Move(_31)), ReturnTo(bb44), UnwindUnreachable())
 }
 bb44 = {
 Return()
@@ -9915,10 +9907,10 @@ _17 = [(-58_i8),(-74_i8),(-36_i8),85_i8,56_i8,79_i8];
 Goto(bb8)
 }
 bb8 = {
-Call(_31 = dump_var(Move(_23), Move(_7), Move(_6), Move(_12)), ReturnTo(bb9), UnwindUnreachable())
+Call(_31 = dump_var(14_usize, 23_usize, Move(_23), 7_usize, Move(_7), 6_usize, Move(_6), 12_usize, Move(_12)), ReturnTo(bb9), UnwindUnreachable())
 }
 bb9 = {
-Call(_31 = dump_var(Move(_3), Move(_5), Move(_15), _32), ReturnTo(bb10), UnwindUnreachable())
+Call(_31 = dump_var(14_usize, 3_usize, Move(_3), 5_usize, Move(_5), 15_usize, Move(_15), 32_usize, _32), ReturnTo(bb10), UnwindUnreachable())
 }
 bb10 = {
 Return()
@@ -10924,16 +10916,16 @@ _56 = _67 as u64;
 Goto(bb50)
 }
 bb50 = {
-Call(_80 = dump_var(Move(_20), Move(_33), Move(_67), Move(_39)), ReturnTo(bb51), UnwindUnreachable())
+Call(_80 = dump_var(15_usize, 20_usize, Move(_20), 33_usize, Move(_33), 67_usize, Move(_67), 39_usize, Move(_39)), ReturnTo(bb51), UnwindUnreachable())
 }
 bb51 = {
-Call(_80 = dump_var(Move(_17), Move(_16), Move(_15), Move(_61)), ReturnTo(bb52), UnwindUnreachable())
+Call(_80 = dump_var(15_usize, 17_usize, Move(_17), 16_usize, Move(_16), 15_usize, Move(_15), 61_usize, Move(_61)), ReturnTo(bb52), UnwindUnreachable())
 }
 bb52 = {
-Call(_80 = dump_var(Move(_37), Move(_42), Move(_34), Move(_28)), ReturnTo(bb53), UnwindUnreachable())
+Call(_80 = dump_var(15_usize, 37_usize, Move(_37), 42_usize, Move(_42), 34_usize, Move(_34), 28_usize, Move(_28)), ReturnTo(bb53), UnwindUnreachable())
 }
 bb53 = {
-Call(_80 = dump_var(Move(_52), Move(_56), Move(_41), _81), ReturnTo(bb54), UnwindUnreachable())
+Call(_80 = dump_var(15_usize, 52_usize, Move(_52), 56_usize, Move(_56), 41_usize, Move(_41), 81_usize, _81), ReturnTo(bb54), UnwindUnreachable())
 }
 bb54 = {
 Return()
@@ -11892,13 +11884,13 @@ _20 = (*_1) as f64;
 Goto(bb52)
 }
 bb52 = {
-Call(_59 = dump_var(Move(_17), Move(_48), Move(_27), Move(_21)), ReturnTo(bb53), UnwindUnreachable())
+Call(_59 = dump_var(16_usize, 17_usize, Move(_17), 48_usize, Move(_48), 27_usize, Move(_27), 21_usize, Move(_21)), ReturnTo(bb53), UnwindUnreachable())
 }
 bb53 = {
-Call(_59 = dump_var(Move(_6), Move(_14), Move(_38), Move(_12)), ReturnTo(bb54), UnwindUnreachable())
+Call(_59 = dump_var(16_usize, 6_usize, Move(_6), 14_usize, Move(_14), 38_usize, Move(_38), 12_usize, Move(_12)), ReturnTo(bb54), UnwindUnreachable())
 }
 bb54 = {
-Call(_59 = dump_var(Move(_22), _60, _60, _60), ReturnTo(bb55), UnwindUnreachable())
+Call(_59 = dump_var(16_usize, 22_usize, Move(_22), 60_usize, _60, 60_usize, _60, 60_usize, _60), ReturnTo(bb55), UnwindUnreachable())
 }
 bb55 = {
 Return()
@@ -12126,10 +12118,10 @@ _9 = _14;
 Goto(bb12)
 }
 bb12 = {
-Call(_22 = dump_var(Move(_10), Move(_16), Move(_11), Move(_5)), ReturnTo(bb13), UnwindUnreachable())
+Call(_22 = dump_var(17_usize, 10_usize, Move(_10), 16_usize, Move(_16), 11_usize, Move(_11), 5_usize, Move(_5)), ReturnTo(bb13), UnwindUnreachable())
 }
 bb13 = {
-Call(_22 = dump_var(Move(_8), Move(_7), _23, _23), ReturnTo(bb14), UnwindUnreachable())
+Call(_22 = dump_var(17_usize, 8_usize, Move(_8), 7_usize, Move(_7), 23_usize, _23, 23_usize, _23), ReturnTo(bb14), UnwindUnreachable())
 }
 bb14 = {
 Return()
@@ -12417,10 +12409,10 @@ _6 = !_3;
 Goto(bb14)
 }
 bb14 = {
-Call(_40 = dump_var(Move(_10), Move(_26), Move(_7), Move(_19)), ReturnTo(bb15), UnwindUnreachable())
+Call(_40 = dump_var(18_usize, 10_usize, Move(_10), 26_usize, Move(_26), 7_usize, Move(_7), 19_usize, Move(_19)), ReturnTo(bb15), UnwindUnreachable())
 }
 bb15 = {
-Call(_40 = dump_var(Move(_14), Move(_34), Move(_23), Move(_21)), ReturnTo(bb16), UnwindUnreachable())
+Call(_40 = dump_var(18_usize, 14_usize, Move(_14), 34_usize, Move(_34), 23_usize, Move(_23), 21_usize, Move(_21)), ReturnTo(bb16), UnwindUnreachable())
 }
 bb16 = {
 Return()
@@ -13133,16 +13125,16 @@ _2 = _19;
 Goto(bb32)
 }
 bb32 = {
-Call(_82 = dump_var(Move(_11), Move(_66), Move(_68), Move(_65)), ReturnTo(bb33), UnwindUnreachable())
+Call(_82 = dump_var(19_usize, 11_usize, Move(_11), 66_usize, Move(_66), 68_usize, Move(_68), 65_usize, Move(_65)), ReturnTo(bb33), UnwindUnreachable())
 }
 bb33 = {
-Call(_82 = dump_var(Move(_34), Move(_37), Move(_51), Move(_49)), ReturnTo(bb34), UnwindUnreachable())
+Call(_82 = dump_var(19_usize, 34_usize, Move(_34), 37_usize, Move(_37), 51_usize, Move(_51), 49_usize, Move(_49)), ReturnTo(bb34), UnwindUnreachable())
 }
 bb34 = {
-Call(_82 = dump_var(Move(_1), Move(_5), Move(_35), Move(_39)), ReturnTo(bb35), UnwindUnreachable())
+Call(_82 = dump_var(19_usize, 1_usize, Move(_1), 5_usize, Move(_5), 35_usize, Move(_35), 39_usize, Move(_39)), ReturnTo(bb35), UnwindUnreachable())
 }
 bb35 = {
-Call(_82 = dump_var(Move(_24), Move(_10), Move(_8), _83), ReturnTo(bb36), UnwindUnreachable())
+Call(_82 = dump_var(19_usize, 24_usize, Move(_24), 10_usize, Move(_10), 8_usize, Move(_8), 83_usize, _83), ReturnTo(bb36), UnwindUnreachable())
 }
 bb36 = {
 Return()
@@ -13153,10 +13145,6 @@ Return()
 pub fn main() {
                 fn0(std::hint::black_box(296617984338165361103079161415863629962_u128), std::hint::black_box(11451_u16), std::hint::black_box(22_u8), std::hint::black_box((-74_i8)), std::hint::black_box((-16905_i16)), std::hint::black_box(1715362002_i32), std::hint::black_box((-3275065049171943126_i64)), std::hint::black_box(2883042756_u32));
                 
-                unsafe {
-                    println!("hash: {}", H.finish());
-                }
-            
             }
 #[derive(Debug)]
 pub enum Adt31 {
